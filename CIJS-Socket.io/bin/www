@@ -51,6 +51,9 @@ io.on('connection', function (socket) {
   socket.on('update_tanker_shot', function (data) {
     socket.broadcast.emit('update_tanker_shot_server', data);
   });
+  socket.on('close', function (data) {
+    socket.broadcast.emit('update_tanker_delete_server', data);
+  });
 });
 
 /**

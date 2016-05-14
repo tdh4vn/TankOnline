@@ -25,6 +25,14 @@ socket.on('player_connected', function (data) {
     myPlayer = new Player(data.x, data.y, data.idTank);
     isOnline = true;
 });
+socket.on('update_tanker_delete_server', function (data) {
+    for(var i = 0; i < players.length; i++){
+        if (data.idTank == players[i]){
+            players.splice(i);
+        }
+    }
+});
+
 socket.on('update_tanker_shot_server', function (data) {
     var check = false;
     for(var i = 0; i < players.length; i++){
@@ -191,4 +199,12 @@ window.onkeydown = function (e) {
 
 window.onkeyup = function (e) {
     myPlayer.move(0);
+};
+window.onbeforeunload = function (e) {
+    alert('abc');
+    socket.emit('close',{idTank: myPlayer.id, x: myPlayer.x, y : myPlayer.y});
+};
+window.onunload = function (e) {
+    alert('abc');
+    socket.emit('close',{idTank: myPlayer.id, x: myPlayer.x, y : myPlayer.y});
 };
