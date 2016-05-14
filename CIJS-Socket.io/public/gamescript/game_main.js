@@ -21,7 +21,7 @@ socket.on('other_player_connected', function (data) {
         if (isOnline) {
             players.push(new EnemyTank(data.x, data.y, data.idTank, data.name));
         }
-        socket.emit('update_tanker', {idTank: myPlayer.id, x: myPlayer.x, y: myPlayer.y});
+        socket.emit('update_tanker', {idTank: myPlayer.id, x: myPlayer.x, y: myPlayer.y, name:myPlayer.name});
     }
 });
 socket.on('player_connected', function (data) {
@@ -92,7 +92,7 @@ socket.on('update_tanker_server', function (data) {
             }
         }
         if (check == false && isOnline) {
-            players.push(new Player(data.x, data.y, data.idTank));
+            players.push(new Player(data.x, data.y, data.idTank, data.name));
         }
     }
 });
