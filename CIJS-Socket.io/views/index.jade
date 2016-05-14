@@ -2,8 +2,36 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js')
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+
+    script(src='/stylesheets/bootstrap.min.js')
     script(src='/socket.io-client/socket.io.js')
   body
+    script(type='text/javascript').
+      $(window).load(function () {
+        $('.myModal').modal('show');
+      });
+
+    .container
+      // Trigger the modal with a button
+      //button.btn.btn-info.btn-lg(type='button', data-toggle='modal', data-target='#myModal') Open Modal
+      //// Modal
+      .myModal.modal.fade(role='dialog')
+        .modal-dialog
+          // Modal content
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal') ×
+              h4.modal-title Nhap ten
+            .modal-body
+              input#txt_name.form-control(type='text', require='')
+            .modal-footer
+              button.btn.btn-default(type='button', data-dismiss='modal', onclick='login()') Play
+
+
+    script(src='/gamescript/map.js')
     script(src='/gamescript/bullet.js')
     script(src='/gamescript/tank.js')
     script(src='/gamescript/wall.js')

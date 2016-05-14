@@ -35,28 +35,31 @@ var io = require('socket.io')(server);
 var id = 0;
 var clients = new Array();
 io.on('connection', function (socket) {
-  id++;
-  var newTank = {idTank: id,x : Math.floor((Math.random() * 300) + 20), y : Math.floor((Math.random() * 400) + 20)};
-  socket.emit('player_connected',newTank);
-  for(var i = 0; i < clients.length; i++){
-    socket.broadcast.emit('other_player_connected', newTank);
-  }
-  clients.push(socket);
-  socket.on('update_tanker_shot', function (data) {
-    socket.broadcast.emit('other_player_connected', {idTank: id});
-  });
-  socket.on('update_tanker', function (data) {
-    socket.broadcast.emit('update_tanker_server', data);
-  });
-  socket.on('update_tanker_shot', function (data) {
-    socket.broadcast.emit('update_tanker_shot_server', data);
-  });
-  socket.on('close', function (data) {
-    socket.broadcast.emit('update_tanker_delete_server', data);
-  });
-  socket.on('disconnect', function () {
-    socket.broadcast.emit('update_tanker_delete_server', newTank);
-  });
+    var newTank;
+    socket.on('update_tanker_shot', function (data) {
+      socket.broadcast.emit('other_player_connected', {idTank: id});
+    });
+    socket.on('die', function (data) {
+      socket.broadcast.emit('die_server', data);
+    });
+    socket.on('update_tanker', function (data) {
+      socket.broadcast.emit('update_tanker_server', data);
+    });
+    socket.on('update_tanker_shot', function (data) {
+      socket.broadcast.emit('update_tanker_shot_server', data);
+    });
+    socket.on('close', function (data) {
+      socket.broadcast.emit('update_tanker_delete_server', data);
+    });
+    socket.on('disconnect', function () {
+      socket.broadcast.emit('update_tanker_delete_server', newTank);
+    });
+    socket.on('login', function(data){
+      id++;
+      newTank = {idTank: id,x : Math.floor((Math.random() * 300) + 20), y : Math.floor((Math.random() * 400) + 20), name: data.name};
+      socket.emit('player_connected',newTank);
+      socket.broadcast.emit('other_player_connected', newTank);
+    });
 });
 
 /**

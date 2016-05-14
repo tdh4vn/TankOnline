@@ -11,7 +11,7 @@ class WallBrick{
     }
 
     draw(context){
-        context.drawImage(this.sprite, this.x, this.y);
+        context.drawImage(this.sprite, this.x - view_xview, this.y - view_yview);
     }
 
     update(deltaTime){
@@ -28,7 +28,7 @@ class WallSteel{
     }
 
     draw(context){
-        context.drawImage(this.sprite, this.x, this.y);
+        context.drawImage(this.sprite, this.x - view_xview, this.y - view_yview);
     }
 
     update(deltaTime){

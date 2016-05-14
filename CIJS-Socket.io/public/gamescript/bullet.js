@@ -3,7 +3,8 @@
  */
 
 class BulletPlayer{
-    constructor(x, y, direction){
+    constructor(x, y, direction, myBullet){
+        this.myBullet = myBullet;
         this.x = x;
         this.y = y;
         this.speedX = 0;
@@ -38,7 +39,7 @@ class BulletPlayer{
     }
 
     draw(context){
-        context.drawImage(this.sprite, this.x, this.y);
+        context.drawImage(this.sprite, this.x - view_xview, this.y - view_yview);
     }
 
     update(deltaTime){
