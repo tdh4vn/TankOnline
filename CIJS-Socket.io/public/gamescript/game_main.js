@@ -26,8 +26,9 @@ socket.on('player_connected', function (data) {
     isOnline = true;
 });
 socket.on('update_tanker_delete_server', function (data) {
+    console.log("abccss");
     for(var i = 0; i < players.length; i++){
-        if (data.idTank == players[i]){
+        if (data.idTank == players[i].id){
             players.splice(i);
         }
     }
