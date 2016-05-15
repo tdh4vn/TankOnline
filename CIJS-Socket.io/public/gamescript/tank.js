@@ -37,7 +37,9 @@ class Player{
     update(deltaTime){
         if(this.checkCollistionWithBullet()){
             isLive = false;
+            console.log(isLive);
             socket.emit('die',{idTank:this.id, name : this.name});
+            replay();
         }
         if(!this.checkCollistionWithBrick()){
             this.x += this.speedX;

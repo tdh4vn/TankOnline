@@ -41,6 +41,7 @@ socket.on('update_tanker_delete_server', function (data) {
 
 socket.on('die_server', function (data) {
     if(isLive){
+        console.log(data.name);
         for(var i = 0; i < players.length; i++){
             if (data.idTank == players[i].id){
                 players.splice(i);
@@ -60,7 +61,7 @@ socket.on('update_tanker_shot_server', function (data) {
             }
         }
         if (check == false && isOnline) {
-            players.push(new Player(data.x, data.y, data.idTank));
+            players.push(new EnemyTank(data.x, data.y, data.idTank));
         }
     }
 });
@@ -92,7 +93,7 @@ socket.on('update_tanker_server', function (data) {
             }
         }
         if (check == false && isOnline) {
-            players.push(new Player(data.x, data.y, data.idTank, data.name));
+            players.push(new EnemyTank(data.x, data.y, data.idTank, data.name));
         }
     }
 });
@@ -201,6 +202,10 @@ window.onkeydown = function (e) {
             break;
     }
 };
+
+function replay() {
+    $('.myModal').modal('show');
+}
 
 window.onkeyup = function (e) {
     if(isLive){
