@@ -52,6 +52,9 @@ socket.on('die_server', function (data) {
 
 socket.on('update_tanker_shot_server', function (data) {
     if(isLive) {
+        if (myPlayer.id == data.idTank) {
+            myPlayer.shot();
+        }
         var check = false;
         for (var i = 0; i < players.length; i++) {
             if (players[i].id == data.idTank) {
@@ -99,9 +102,9 @@ socket.on('update_tanker_server', function (data) {
 });
 
 setInterval(()=>{
-    gameUpdate(17);
+    gameUpdate(34);
     gameDraw(context);
-}, 17);
+}, 34);
 var mapWidth = 216;
 var mapHeight = 72;
 /* Viewport x position */   view_xview = 0;
@@ -197,7 +200,6 @@ window.onkeydown = function (e) {
             myPlayer.move(4);
             break;
         case 32:
-            myPlayer.shot();
             socket.emit('update_tanker_shot', {idTank : myPlayer.id});
             break;
     }
@@ -209,7 +211,28 @@ function replay() {
 
 window.onkeyup = function (e) {
     if(isLive){
-        myPlayer.move(0);
+        switch (e.keyCode){
+            case 37:
+                if (myPlayer.speedX < 0){
+                    myPlayer.speedX = 0;
+                }
+                break;
+            case 38:
+                if (myPlayer.speedY < 0){
+                    myPlayer.speedY = 0;
+                }
+                break;
+            case 39:
+                if (myPlayer.speedX > 0){
+                    myPlayer.speedX = 0;
+                }
+                break;
+            case 40:
+                if (myPlayer.speedY > 0){
+                    myPlayer.speedY = 0;
+                }
+                break;
+        }
     }
 };
 window.onbeforeunload = function (e) {
