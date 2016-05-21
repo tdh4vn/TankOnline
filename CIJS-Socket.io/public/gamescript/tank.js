@@ -122,21 +122,25 @@ class Player{
             case 1:
                 this.sprite = this.tankLeft;
                 this.speedX = -5;
+                this.speedY = 0;
                 this.direction = 1;
                 break;
             case 2:
                 this.sprite = this.tankRight;
                 this.speedX = 5;
+                this.speedY = 0;
                 this.direction = 2;
                 break;
             case 3:
                 this.sprite = this.tankUp;
                 this.speedY = -5;
+                this.speedX = 0;
                 this.direction = 3;
                 break;
             case 4:
                 this.sprite = this.tankDown;
                 this.speedY = 5;
+                this.speedX = 0;
                 this.direction = 4;
                 break;
         }
