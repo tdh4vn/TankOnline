@@ -30,12 +30,13 @@ socket.on('player_connected', function (data) {
     view_yview = 0;
     isOnline = true;
     isLive = true;
+    players = new Array();
 });
 socket.on('update_tanker_delete_server', function (data) {
     if(isLive){
         for(var i = 0; i < players.length; i++){
             if (data.idTank == players[i].id){
-                players.splice(i);
+                players.splice(i,1);
             }
         }
     }
@@ -46,7 +47,7 @@ socket.on('die_server', function (data) {
         console.log(data.name);
         for(var i = 0; i < players.length; i++){
             if (data.idTank == players[i].id){
-                players.splice(i);
+                players.splice(i,1);
             }
         }
     }
