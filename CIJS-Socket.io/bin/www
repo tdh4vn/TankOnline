@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
     });
     socket.on('login', function(data){
         id++;
-        newTank = {idTank: id,x : Math.floor((Math.random() * 348) + 20), y : Math.floor((Math.random() * 252) + 20), name: data.name};
+        newTank = {idTank: id,x : Math.floor((Math.random() * 300) + 20), y : Math.floor((Math.random() * 200) + 20), name: data.name};
         socket.emit('player_connected',newTank);
         socket.broadcast.emit('other_player_connected', newTank);
     });
