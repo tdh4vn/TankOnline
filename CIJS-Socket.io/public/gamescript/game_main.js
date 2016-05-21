@@ -12,7 +12,7 @@ document.body.appendChild(canvas);
 
 var players = new Array();
 var myPlayer;
-var isOnline = false;;
+var isOnline = false;
 var isLive = false;
 
 var socket = io.connect();
@@ -26,6 +26,8 @@ socket.on('other_player_connected', function (data) {
 });
 socket.on('player_connected', function (data) {
     myPlayer = new Player(data.x, data.y, data.idTank, data.name);
+    view_xview = 0;
+    view_yview = 0;
     isOnline = true;
     isLive = true;
 });
@@ -53,18 +55,18 @@ socket.on('die_server', function (data) {
 socket.on('update_tanker_shot_server', function (data) {
     if(isLive) {
         if (myPlayer.id == data.idTank) {
-            myPlayer.shot();
+            myPlayer.shot(data.direction);
         }
         var check = false;
         for (var i = 0; i < players.length; i++) {
             if (players[i].id == data.idTank) {
-                players[i].shot();
+                players[i].shot(data.direction);
                 check = true;
                 break;
             }
         }
         if (check == false && isOnline) {
-            players.push(new EnemyTank(data.x, data.y, data.idTank));
+            players.push(new EnemyTank(data.x, data.y, data.idTank, data.name));
         }
     }
 });
@@ -89,8 +91,7 @@ socket.on('update_tanker_server', function (data) {
                     players[i].sprite = players[i].tankDown;
                     players[i].drirection = 4;
                 }
-                players[i].x = data.x;
-                players[i].y = data.y;
+                players[i].move(data.x, data.y);
                 check = true;
                 break;
             }
@@ -111,8 +112,7 @@ var mapHeight = 72;
 /* Viewport y position */   view_yview = 0;
 /* Viewport width */        view_wview = canvas.width;
 /* Viewport height */       view_hview = canvas.height;
-/* Sector width */          room_width = mapWidth * 16;
-/* Sector height */         room_height = mapHeight * 16;
+/* Sector width */          room_width = mapWidth * 16;       room_height = mapHeight * 16;
 
 
 var arrayWallBrick = new Array();
@@ -200,7 +200,11 @@ window.onkeydown = function (e) {
             myPlayer.move(4);
             break;
         case 32:
-            socket.emit('update_tanker_shot', {idTank : myPlayer.id});
+            if(myPlayer.readyShot == true){
+                console.log("aaaa");
+                myPlayer.readyShot = false;
+                socket.emit('update_tanker_shot',{idTank: myPlayer.id, name: myPlayer.name, direction: myPlayer.direction});
+            }
             break;
     }
 };
